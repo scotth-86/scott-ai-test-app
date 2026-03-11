@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scott AI Test App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- Header -->
+    <header class="app-header">
+      <h1>Scott AI</h1>
+      <div id="authControls">
+        <button id="loginBtn" class="btn btn-subtle">Login</button>
+      </div>
+    </header>
+
+    <!-- AI Workspace -->
+    <main class="workspace">
+
+      <!-- Human Input -->
+      <label for="humanInput" class="field-label">Human Input</label>
+      <textarea id="humanInput" rows="4" placeholder="Paste or type your text here..."></textarea>
+
+      <!-- File Attach Row -->
+      <div class="file-attach-row">
+        <button id="attachFileBtn" class="btn btn-small" title="Select a file from the file panel below">
+          Attach File
+        </button>
+        <span id="attachedFileChip" class="file-chip hidden">
+          <span id="attachedFileName"></span>
+          <button id="detachFileBtn" class="chip-close">&times;</button>
+        </span>
+      </div>
+
+      <!-- Prompt Dropdown -->
+      <label for="promptDropdown" class="field-label">Prompt</label>
+      <select id="promptDropdown">
+        <option value="" disabled selected>Loading prompts...</option>
+      </select>
+
+      <!-- Freeform Prompt -->
+      <label for="freeformPrompt" class="field-label">Additional Instructions <span class="optional">(optional)</span></label>
+      <textarea id="freeformPrompt" rows="2" placeholder="Add any extra instructions for this generation..."></textarea>
+
+      <!-- Generate Button Row -->
+      <div class="generate-row">
+        <button id="generateBtn" class="btn btn-primary" disabled>Generate</button>
+        <button id="cancelBtn" class="btn-cancel hidden">Cancel</button>
+      </div>
+
+      <!-- AI Response -->
+      <label for="aiResponse" class="field-label">AI Response</label>
+      <div id="aiResponse" class="ai-response-box" contenteditable="false"></div>
+
+      <!-- Use AI Response Button -->
+      <button id="useResponseBtn" class="btn btn-secondary hidden">Use AI Response</button>
+
+    </main>
+
+    <!-- Separator -->
+    <hr class="section-divider">
+
+    <!-- File Management Panel -->
+    <section class="file-panel">
+      <button id="toggleFilePanelBtn" class="btn btn-subtle panel-toggle">
+        File Management <span class="toggle-arrow">&#9660;</span>
+      </button>
+      <div id="filePanel" class="panel-content hidden">
+        <!-- Upload Zone -->
+        <div id="uploadZone" class="upload-zone">
+          <p>Drag &amp; drop files here, or</p>
+          <button id="filePickerBtn" class="btn btn-small">Choose File</button>
+          <input type="file" id="fileInput" class="hidden"
+            accept="image/jpeg,image/png,image/webp,application/pdf,text/plain,text/markdown,.md,.docx">
+          <p class="upload-hint">Images, PDFs, text, markdown, docx &middot; 10MB max</p>
+        </div>
+
+        <!-- File List -->
+        <div id="fileList" class="file-list">
+          <p class="placeholder-text" id="fileListEmpty">No files uploaded yet.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Admin Panel (visible when logged in) -->
+    <section id="adminPanel" class="admin-panel hidden">
+      <h2 class="admin-title">Manage Prompt Data</h2>
+
+      <!-- Category filter tabs -->
+      <div class="admin-tabs">        <button class="admin-tab active" data-cat="dropdown_prompt">Dropdowns</button>
+        <button class="admin-tab" data-cat="value">Values</button>
+        <button class="admin-tab" data-cat="belief">Beliefs</button>
+        <button class="admin-tab" data-cat="approach">Approaches</button>
+        <button class="admin-tab" data-cat="project">Projects</button>
+      </div>
+
+      <!-- Add new row -->
+      <div class="admin-add-row">
+        <input type="text" id="newLabel" placeholder="Label" class="admin-input">
+        <textarea id="newContent" rows="2" placeholder="Content / prompt text" class="admin-textarea"></textarea>
+        <div class="admin-add-actions">
+          <input type="number" id="newSortOrder" placeholder="Order" value="10" class="admin-input admin-input-small">
+          <button id="addRowBtn" class="btn btn-small btn-accent">+ Add Row</button>
+        </div>
+      </div>
+
+      <!-- Rows list -->
+      <div id="adminRows" class="admin-rows"></div>
+    </section>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal-overlay hidden">
+      <div class="modal-content modal-small">
+        <div class="modal-header">
+          <span>Login</span>
+          <button id="closeLoginBtn" class="chip-close modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="login-form">
+            <label class="field-label" style="margin-top:0">Email</label>
+            <input type="email" id="loginEmail" class="login-input" placeholder="you@example.com">
+            <label class="field-label">Password</label>
+            <input type="password" id="loginPassword" class="login-input" placeholder="Password">
+            <div id="loginError" class="login-error hidden"></div>
+            <button id="submitLoginBtn" class="btn btn-primary" style="margin-top:12px">Sign In</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preview Modal -->
+    <div id="previewModal" class="modal-overlay hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span id="previewTitle">Preview</span>
+          <button id="closePreviewBtn" class="chip-close modal-close">&times;</button>
+        </div>
+        <div id="previewBody" class="modal-body"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
